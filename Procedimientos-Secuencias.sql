@@ -1,0 +1,45 @@
+-- ***** Procedimientos *****
+
+-- Imprimir un mensaje
+SET SERVEROUTPUT ON;
+
+CREATE OR REPLACE PROCEDURE IMPRIMIR(MENSA IN VARCHAR2)
+AS
+BEGIN
+DBMS_OUTPUT.PUT_LINE(MENSA);
+END;
+/
+
+-- c) Generamos un procedimiento almacenado cuya función es
+-- asociar la secuencia a la tabla CARTERA_CLIENTES
+CREATE OR REPLACE PROCEDURE GUARDAR_CARTERA(MI_ID OUT INTEGER,
+MI_NOMBRE IN VARCHAR2, MI_SUELDO IN FLOAT)
+AS 
+BEGIN
+SELECT SEC_CARTERA_CLIENTES.NEXTVAL INTO MI_ID FROM DUAL;
+INSERT INTO CARTERA_CLIENTES VALUES(MI_ID, MI_NOMBRE, MI_SUELDO);
+END;
+/
+
+-- ***** Secuencias *****
+
+-- Auto-incremento ejemplo de 1 en 1
+CREATE SEQUENCE SEC_CARTERA_CLIENTES
+START WITH 1
+INCREMENT BY 1
+NOMAXVALUE;
+
+-- ***** Sintaxis *****
+
+-- Imprimir
+IMPRIMIR('Esto lo va a mostrar.');
+
+-- Auto-incremento
+DECLARE
+VALOR INTEGER;
+BEGIN
+GUARDAR_CARTERA(VALOR,'Juan',400);
+END;
+/
+
+SELECT * FROM CARTERA_CLIENTES;
